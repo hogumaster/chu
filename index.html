@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>차트무당</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #222;
+      color: white;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      font-size: 2em;
+      margin-bottom: 30px;
+    }
+    button {
+      font-size: 1.2em;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+    }
+    .main-btn {
+      background-color: #0f0;
+      color: #000;
+    }
+    .sub-btn {
+      background-color: #0af;
+      color: #fff;
+    }
+    .reset-btn {
+      background-color: #f00;
+      color: #fff;
+    }
+    #result, #time, #whenBtn, #resetBtn, #modeSelect {
+      margin-top: 20px;
+    }
+    select {
+      font-size: 1em;
+      padding: 5px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div style="display: flex; justify-content: center;">
+    <div style="width: 300px; min-height: 100vh; background: #111; margin-right: 10px;"></div>
+    <div style="flex-grow: 1; max-width: 600px; display: flex; flex-direction: column; align-items: center;">
+  <h1>🔮 차트무당</h1>
+  <img src="https://i.ibb.co/HfmNX9Bs/image.png" alt="차트 이미지" width="200" height="200" style="margin: 20px 0;">
+  <button class="main-btn" onclick="decide()">살까? 팔까?</button>
+
+  <div id="result"></div>
+
+  <div id="modeSelect" style="display:none;">
+    <label for="mode">선택형형: </label>
+    <select id="mode">
+      <option value="extreme">극단타</option>
+      <option value="short">단타</option>
+      <option value="long"> 장타</option>
+      <option value="superlong">극장타</option>
+    </select>
+    <button class="sub-btn" onclick="decideWhen()">언제?</button>
+  </div>
+
+  <div id="time"></div>
+  <div id="resetBtn" style="display:none;">
+    <button class="reset-btn" onclick="resetGame()">다시하기</button>
+    <button class="sub-btn" onclick="copyResult()">공유하기</button>
+  </div>
+
+  <script>
+    const actions = ["사!", "팔아!"];
+    const timePools = {
+      extreme: ["10초 뒤", "30초 뒤", "1시간 뒤", "3시간 뒤", "6시간 뒤"],
+      short: ["1시간 뒤", "6시간 뒤", "12시간 뒤", "24시간 뒤"],
+      long: ["1일 뒤", "3일 뒤", "5일 뒤", "7일 뒤"],
+      superlong: ["10일 뒤", "15일 뒤", "20일 뒤", "30일 뒤"]
+    };
+
+    function decide() {
+      const choice = actions[Math.floor(Math.random() * actions.length)];
+      document.getElementById("result").innerText = `🔀 ${choice}`;
+      document.getElementById("modeSelect").style.display = "block";
+    }
+
+    function decideWhen() {
+      const mode = document.getElementById("mode").value;
+      const options = timePools[mode];
+      const selected = options[Math.floor(Math.random() * options.length)];
+      document.getElementById("time").innerText = `⏰ ${selected}`;
+      document.getElementById("resetBtn").style.display = "block";
+      document.getElementById("modeSelect").style.display = "none";
+    }
+
+    function resetGame() {
+      document.getElementById("result").innerText = "";
+      document.getElementById("time").innerText = "";
+      document.getElementById("modeSelect").style.display = "none";
+      document.getElementById("resetBtn").style.display = "none";
+    }
+
+    function copyResult() {
+      const action = document.getElementById("result").innerText;
+      const time = document.getElementById("time").innerText;
+      const text = `차트무당의 예언:\n${action}\n${time}`;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("예언 결과가 클립보드에 복사되었습니다.");
+      }).catch(() => {
+        alert("클립보드 복사에 실패했습니다.");
+      });
+    }
+  </script>
+  <p style="color: gray; font-size: 0.9em; margin-top: 50px;">
+    해당 프로그램으로 주식을 판매하고 구매할 때 발생하는 손실은 당신에게 있습니다.
+  </p>
+    </div>
+    <div style="width: 300px; min-height: 100vh; background: #111; margin-left: 10px;"></div>
+  </div>
+</body>
+</html>
